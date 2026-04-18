@@ -17,6 +17,21 @@ export default function SearchPage() {
   const [totalResults, setTotalResults] = useState(0);
   const { settings } = useSettings();
 
+  const highlightKeyword = (text: string, keyword: string): React.ReactNode => {
+    if (!keyword || keyword.length < 3) return text;
+
+    const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedKeyword})`, 'gi');
+    const parts = text.split(regex);
+
+    return parts.map((part, index) => {
+      if (part.toLowerCase() === keyword.toLowerCase()) {
+        return <mark key={index} className="bg-yellow-200 text-stone-800 px-1 rounded">{part}</mark>;
+      }
+      return part;
+    });
+  };
+
   const handleSearch = async (searchQuery: string, pageNum: number = 1, append: boolean = false) => {
     try {
       if (!append) {
@@ -103,7 +118,7 @@ export default function SearchPage() {
             {results.map((ayah) => (
               <Link
                 key={ayah.verse_key}
-                href={`/surah/${ayah.surah_id}`}
+                href={`/surah/${ayah.surah_id}?ayah=${ayah.ayah_number}`}
                 className="block bg-white rounded-lg shadow-sm p-6 border border-stone-200 hover:shadow-md transition-shadow"
               >
                 <div className="mb-3">
@@ -121,7 +136,7 @@ export default function SearchPage() {
                   className="text-stone-700 leading-relaxed text-left"
                   style={{ fontSize: `${settings.translationFontSize}px` }}
                 >
-                  {ayah.translation}
+                  {highlightKeyword(ayah.translation, query)}
                 </div>
               </Link>
             ))}

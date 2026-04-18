@@ -5,6 +5,7 @@ import { getSurahById, getAyahsBySurahId } from '@/lib/api';
 import { Surah, Ayah } from '@/lib/api';
 import { useSettings } from '@/context/SettingsContext';
 import { useState, useEffect, use } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { getArabicFontFamily } from '@/lib/utils';
 
 export default function SurahDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -12,7 +13,11 @@ export default function SurahDetailPage({ params }: { params: Promise<{ id: stri
   const [surah, setSurah] = useState<Surah | null>(null);
   const [ayahs, setAyahs] = useState<Ayah[]>([]);
   const [loading, setLoading] = useState(true);
+  const [highlightedAyah, setHighlightedAyah] = useState<number | null>(null);
   const { settings } = useSettings();
+
+  const searchParams = useSearchParams();
+  const targetAyahNumber = searchParams.get('ayah') ? parseInt(searchParams.get('ayah')!) : null;
 
   useEffect(() => {
     async function fetchSurahData() {
@@ -35,6 +40,18 @@ export default function SurahDetailPage({ params }: { params: Promise<{ id: stri
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [resolvedParams.id]);
+
+  useEffect(() => {
+    if (targetAyahNumber && ayahs.length > 0) {
+      const targetElement = document.getElementById(`ayah-${targetAyahNumber}`);
+      if (targetElement) {
+        setHighlightedAyah(targetAyahNumber);
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        setTimeout(() => setHighlightedAyah(null), 3000);
+      }
+    }
+  }, [ayahs, targetAyahNumber]);
 
   if (loading) {
     return (
@@ -88,7 +105,10 @@ export default function SurahDetailPage({ params }: { params: Promise<{ id: stri
           {ayahs.map((ayah) => (
             <div
               key={ayah.verse_key}
-              className="bg-white rounded-lg shadow-sm p-6 border border-stone-200"
+              id={`ayah-${ayah.ayah_number}`}
+              className={`bg-white rounded-lg shadow-sm p-6 border border-stone-200 ${
+                highlightedAyah === ayah.ayah_number ? 'ring-4 ring-emerald-500 ring-opacity-50' : ''
+              }`}
             >
               <div className="mb-4">
                 <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 rounded text-sm font-semibold">

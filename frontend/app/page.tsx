@@ -27,6 +27,10 @@ export default function Home() {
     fetchSurahs();
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const filteredSurahs = surahs.filter(surah =>
     surah.name_en.toLowerCase().includes(filter.toLowerCase()) ||
     surah.id.toString().includes(filter)
