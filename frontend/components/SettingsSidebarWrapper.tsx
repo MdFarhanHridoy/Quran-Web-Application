@@ -1,14 +1,16 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import Header from './Header';
 import SettingsSidebar from './SettingsSidebar';
 
 export default function SettingsSidebarWrapper() {
-  const pathname = usePathname();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  if (pathname !== '/') {
-    return null;
-  }
-
-  return <SettingsSidebar />;
+  return (
+    <>
+      <Header onSettingsClick={() => setIsSettingsOpen(true)} />
+      <SettingsSidebar isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+    </>
+  );
 }

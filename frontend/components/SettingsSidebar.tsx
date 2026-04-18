@@ -1,11 +1,14 @@
 'use client';
 
 import { useSettings } from '@/context/SettingsContext';
-import { useState } from 'react';
 
-export default function SettingsSidebar() {
+interface SettingsSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
   const { settings, updateSettings } = useSettings();
-  const [isOpen, setIsOpen] = useState(false);
 
   const getArabicFontClass = () => {
     if (settings.arabicFont === 'Amiri') {
@@ -16,26 +19,18 @@ export default function SettingsSidebar() {
 
   return (
     <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed top-4 right-4 z-50 px-4 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-900 transition-colors shadow-md"
-        aria-label="Open Settings"
-      >
-        ⚙️ Settings
-      </button>
-
       {isOpen && (
         <div className="fixed inset-0 z-50 flex">
           <div
             className="absolute inset-0 bg-black/50"
-            onClick={() => setIsOpen(false)}
+            onClick={onClose}
           />
           <div className="relative ml-auto h-full w-80 bg-white shadow-xl transform transition-transform">
             <div className="p-6 h-full flex flex-col">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-stone-800">Settings</h2>
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={onClose}
                   className="px-3 py-1 bg-stone-200 text-stone-800 rounded hover:bg-stone-300 transition-colors"
                   aria-label="Close Settings"
                 >

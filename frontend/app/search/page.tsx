@@ -71,12 +71,6 @@ export default function SearchPage() {
         <div className="mb-6 flex items-center justify-between">
           <Link
             href="/"
-            className="text-4xl font-bold text-stone-800 hover:text-emerald-700 transition-colors"
-          >
-            The Holy Quran
-          </Link>
-          <Link
-            href="/"
             className="px-4 py-2 bg-stone-200 text-stone-800 rounded-lg hover:bg-stone-300 transition-colors"
           >
             ← Back to Surah List

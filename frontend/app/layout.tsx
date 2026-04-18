@@ -22,8 +22,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <SettingsProvider>
-          {children}
           <SettingsSidebarWrapper />
+          <main className="flex-1">
+            {children}
+          </main>
         </SettingsProvider>
       </body>
     </html>
