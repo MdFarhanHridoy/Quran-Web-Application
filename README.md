@@ -91,6 +91,12 @@ npm run dev
 
 Frontend will run on `http://localhost:3000`
 
+## Live Demo
+
+The application is deployed and live at: https://quran-web-application-rust.vercel.app
+
+You can browse and read the Quran directly without needing to set up the project locally.
+
 ## API Endpoints
 
 ### Health Check
