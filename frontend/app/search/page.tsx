@@ -99,7 +99,7 @@ export default function SearchPage() {
             placeholder="Search in translation (minimum 3 characters)..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-lg text-stone-800"
+            className="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base md:text-lg text-stone-800"
             autoFocus
           />
         </div>
